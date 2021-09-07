@@ -314,7 +314,8 @@ public class MavenLemminxExtension implements IXMLExtension {
 
 	public static boolean match(DOMDocument document) {
 		try {
-			return match(new File(URI.create(document.getDocumentURI())).toPath());
+			return true;
+			// return match(new File(URI.create(document.getDocumentURI())).toPath());
 		} catch (Exception ex) {
 			// usually because of not so tolerant Java URI API
 			LOGGER.log(Level.SEVERE, ex.getMessage(), ex);

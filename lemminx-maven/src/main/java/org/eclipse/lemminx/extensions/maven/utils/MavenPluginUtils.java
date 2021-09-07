@@ -49,7 +49,32 @@ public class MavenPluginUtils {
 	private MavenPluginUtils() {
 		// Utility class, not meant to be instantiated
 	}
+	public static MarkupContent getMarkupSvante(MojoParameter parameter, MojoParameter parentParameter,
+													 boolean supportsMarkdown) {
+		UnaryOperator<String> toBold = supportsMarkdown ? MarkdownUtils::toBold : UnaryOperator.identity();
+		String lineBreak = MarkdownUtils.getLineBreak(supportsMarkdown);
 
+		final String fromParent = toBold.apply("From Svante configuration element:") + lineBreak;
+		String type = parameter.getType() != null ? parameter.getType() : "";
+		String expression = parameter.getExpression() != null ? parameter.getExpression() : "(none Svante )";
+		String defaultValue = parameter.getDefaultValue() != null ? parameter.getDefaultValue() : "(unset Svante )";
+		String description = parameter.getDescription() != null ? parameter.getDescription() : "Svante";
+
+		if (defaultValue.isEmpty() && parentParameter != null && parentParameter.getDefaultValue() != null) {
+			defaultValue = fromParent + parentParameter.getDefaultValue();
+		}
+		if (description.isEmpty() && parentParameter != null) {
+			description = fromParent + parentParameter.getDescription();
+		}
+
+		description = MarkdownUtils.htmlXMLToMarkdown(description);
+
+		String markdownDescription = toBold.apply("Required: ") + parameter.isRequired() + lineBreak
+				+ toBold.apply("Type: ") + type + lineBreak + toBold.apply("Expression: ") + expression + lineBreak
+				+ toBold.apply("Default Value: ") + defaultValue + lineBreak + description;
+
+		return new MarkupContent(supportsMarkdown ? MarkupKind.MARKDOWN : MarkupKind.PLAINTEXT, markdownDescription);
+	}
 	public static MarkupContent getMarkupDescription(MojoParameter parameter, MojoParameter parentParameter,
 			boolean supportsMarkdown) {
 		UnaryOperator<String> toBold = supportsMarkdown ? MarkdownUtils::toBold : UnaryOperator.identity();

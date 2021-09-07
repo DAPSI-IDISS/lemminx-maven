@@ -255,6 +255,7 @@ public class MavenHoverParticipant extends HoverParticipantAdapter {
 		return null;
 	}
 
+
 	private Hover collectPluginConfiguration(IHoverRequest request) {
 		boolean supportsMarkdown = request.canSupportMarkupKind(MarkupKind.MARKDOWN);
 		Set<MojoParameter> parameters;
@@ -270,7 +271,7 @@ public class MavenHoverParticipant extends HoverParticipantAdapter {
 			// The configuration element being hovered is at the top level
 			for (MojoParameter parameter : parameters) {
 				if (node.getLocalName().equals(parameter.getName())) {
-					return new Hover(MavenPluginUtils.getMarkupDescription(parameter, null, supportsMarkdown));
+					return new Hover(MavenPluginUtils.getMarkupSvante(parameter, null, supportsMarkdown));
 				}
 			}
 		}
@@ -291,7 +292,7 @@ public class MavenHoverParticipant extends HoverParticipantAdapter {
 					MojoParameter nestedParameter = parentParameter.getNestedParameters().get(0);
 					Class<?> potentialInlineType = PlexusConfigHelper.getRawType(nestedParameter.getParamType());
 					if (potentialInlineType != null && PlexusConfigHelper.isInline(potentialInlineType)) {
-						return new Hover(MavenPluginUtils.getMarkupDescription(nestedParameter, parentParameter,
+						return new Hover(MavenPluginUtils.getMarkupSvante(nestedParameter, parentParameter,
 								supportsMarkdown));
 					}
 				}
@@ -302,7 +303,7 @@ public class MavenHoverParticipant extends HoverParticipantAdapter {
 				for (MojoParameter parameter : nestedParameters) {
 					if (node.getLocalName().equals(parameter.getName())) {
 						return new Hover(
-								MavenPluginUtils.getMarkupDescription(parameter, parentParameter, supportsMarkdown));
+								MavenPluginUtils.getMarkupSvante(parameter, parentParameter, supportsMarkdown));
 					}
 				}
 			}

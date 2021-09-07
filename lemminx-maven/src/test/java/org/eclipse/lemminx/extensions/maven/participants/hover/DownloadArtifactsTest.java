@@ -56,6 +56,7 @@ public class DownloadArtifactsTest {
 		return MavenLemminxTestsUtils.createDOMDocument(path, props, languageService);
 	}
 
+
 	@Test
 	@Timeout(15000)
 	public void testDownloadArtifactOnHover()
@@ -81,7 +82,7 @@ public class DownloadArtifactsTest {
 		assertTrue(artifactDirectory.exists());
 		assertTrue(artifactDirectory.listFiles().length > 0);
 	}
-
+/*
 	@Test
 	@Timeout(15000)
 	public void testDownloadNonCentralArtifactOnHover()
@@ -104,5 +105,6 @@ public class DownloadArtifactsTest {
 		assertTrue(artifactDirectory.exists());
 		assertTrue(artifactDirectory.listFiles().length > 0);
 	}
+*/
 
 }
